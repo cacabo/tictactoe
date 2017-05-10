@@ -16,6 +16,15 @@ nav h1 {
   background: whitesmoke;
   height: 10vh;
   border: 1px solid gray;
+  padding: 0;
+}
+
+.p1 {
+  background: green;
+}
+
+.p2 {
+  background: red;
 }
 
 footer {
