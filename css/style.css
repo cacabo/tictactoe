@@ -1,5 +1,32 @@
+nav h1 {
+  font-size: 150%;
+  margin: 2.5vh 0 2.5vh 2.5vh;
+}
+
+.board-wrapper {
+}
+
+.board {
+  background: gray;
+  padding: 0;
+  margin: 0;
+}
+
+.slot {
+  background: whitesmoke;
+  height: 10vh;
+  border: 1px solid gray;
+}
+
 footer {
   position: absolute;
   bottom: 0;
+  width: 100%;
+  padding: 0, 2.5vh;
+}
+
+footer h6 {
   text-align: center;
+  margin: 2.5vh 0px;
+  font-size: 100%;
 }

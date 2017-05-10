@@ -1,3 +1,16 @@
+/*
+ * FORMATTING
+ */
+
+ $(document).ready(function() {
+   var w = $('.slot').width();
+   $('.slot').height(w);
+ });
+
+/*
+ * PROGRAM
+ */
+
 //Initialize the game board (3x3 grid)
 var board = [
   [0, 0, 0],
@@ -71,7 +84,7 @@ var checkWon = function() {
   return 0;
 }
 
-function play() {
+var play = function() {
   resetGame();
   while (gameState !== 3 && gameState !== 4 && gameState !== 5) {
     /*
@@ -102,3 +115,9 @@ var choose = function(row, col) {
   }
   // TODO
 }
+
+
+//When the page has finished loading, start playing the game
+$(document).ready(function() {
+  play();
+});
