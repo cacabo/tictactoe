@@ -5,6 +5,11 @@
 $(document).ready(function() {
     var w = $('.slot').width();
     $('.slot').height(w);
+
+    $(window).resize(function() {
+        var w = $('.slot').width();
+        $('.slot').height(w);
+    });
 });
 
 /*
@@ -99,7 +104,9 @@ var checkWon = function() {
 // }
 
 var getBoard = function() {
-    return board;
+    console.log(board[0]);
+    console.log(board[1]);
+    console.log(board[2]);
 }
 
 var getP1Status = function() {
@@ -110,6 +117,24 @@ var getP2Status = function() {
     return p2_status;
 }
 
+//Update the status at the passed in index depending on current state
+//Called whne it is P1's turn
+var updateStatusP1 = function(i) {
+    if (p2_status[i] <= 0) {
+        p1_status[i]++;
+    }
+    p2_status[i] = -1;
+}
+
+//Update the status at the passed in index depending on current state
+//Called whne it is P2's turn
+var updateStatusP2 = function(i) {
+    if (p1_status[i] <= 0) {
+        p2_status[i]++;
+    }
+    p1_status[i] = -1;
+}
+
 var choose = function(row, col) {
     if (row > 3 || row < 0 || col > 3 || col < 0) {
         console.log("ERROR: passed in invalid coords");
@@ -117,13 +142,112 @@ var choose = function(row, col) {
     }
     // If this location has not yet been chosen
     if ((gameState === 1 || gameState === 2) && board[row][col] === 0) {
-        if (gameState === 1)
-            gameState = 2;
-        else
-            gameState = 1;
         countMoves++;
         //Assign either a 1 or 2 to the board depending on whose turn it is
         board[row][col] = gameState;
+
+        //Update the point system
+        if (gameState === 1) {
+            switch (true) {
+                case (row === 0 && col === 0):
+                    updateStatusP1(0);
+                    updateStatusP1(3);
+                    updateStatusP1(6);
+                    break;
+                case (row === 0 && col === 1):
+                    updateStatusP1(0);
+                    updateStatusP1(4);
+                    break;
+                case (row === 0 && col === 2):
+                    updateStatusP1(0);
+                    updateStatusP1(5);
+                    updateStatusP1(7);
+                    break;
+                case (row === 1 && col === 0):
+                    updateStatusP1(1);
+                    updateStatusP1(3);
+                    break;
+                case (row === 1 && col === 1):
+                    updateStatusP1(1);
+                    updateStatusP1(4);
+                    updateStatusP1(6);
+                    updateStatusP1(7);
+                    break;
+                case (row === 1 && col === 2):
+                    updateStatusP1(1);
+                    updateStatusP1(5);
+                    break;
+                case (row === 2 && col === 0):
+                    updateStatusP1(2);
+                    updateStatusP1(3);
+                    updateStatusP1(7);
+                    break;
+                case (row === 2 && col === 1):
+                    updateStatusP1(2);
+                    updateStatusP1(4);
+                    break;
+                case (row === 2 && col === 2):
+                    updateStatusP1(2);
+                    updateStatusP1(5);
+                    updateStatusP1(6);
+                    break;
+                default:
+                    break;
+            }
+        } else {
+
+            switch (gameState === 2) {
+                case (row === 0 && col === 0):
+                    updateStatusP2(0);
+                    updateStatusP2(3);
+                    updateStatusP2(6);
+                    break;
+                case (row === 0 && col === 1):
+                    updateStatusP2(0);
+                    updateStatusP2(4);
+                    break;
+                case (row === 0 && col === 2):
+                    updateStatusP2(0);
+                    updateStatusP2(5);
+                    updateStatusP2(7);
+                    break;
+                case (row === 1 && col === 0):
+                    updateStatusP2(1);
+                    updateStatusP2(3);
+                    break;
+                case (row === 1 && col === 1):
+                    updateStatusP2(1);
+                    updateStatusP2(4);
+                    updateStatusP2(6);
+                    updateStatusP2(7);
+                    break;
+                case (row === 1 && col === 2):
+                    updateStatusP2(1);
+                    updateStatusP2(5);
+                    break;
+                case (row === 2 && col === 0):
+                    updateStatusP2(2);
+                    updateStatusP2(3);
+                    updateStatusP2(7);
+                    break;
+                case (row === 2 && col === 1):
+                    updateStatusP2(2);
+                    updateStatusP2(4);
+                    break;
+                case (row === 2 && col === 2):
+                    updateStatusP2(2);
+                    updateStatusP2(5);
+                    updateStatusP2(6);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        //switch whose turn it is
+        gameState = (gameState === 1) ? 2 : 1;
+
+        //Check if either player has won
         checkWon();
     }
 }
@@ -275,6 +399,14 @@ $(document).ready(function() {
     $('#reset').click(function() {
         resetGame();
         resetBoard();
+    });
+
+    $('#CPU').click(function() {
+        var text = $('#CPU p').html();
+        if (text === "Enable CPU")
+            $('#CPU p').html("Disable CPU");
+        else
+            $('#CPU p').html("Enable CPU");
     });
 
     $('#end').click(function() {
