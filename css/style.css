@@ -1,41 +1,104 @@
-nav h1 {
-  font-size: 150%;
-  margin: 2.5vh 0 2.5vh 2.5vh;
+/*
+ * Format the header and background
+ */
+
+ .html {
+   background: black;
+ }
+
+.navbar {
+  border-radius: 0px !important;
 }
 
-.board-wrapper {
+nav h1 {
+    font-size: 150%;
+    margin: 2.5vh 0 2.5vh 2.5vh;
 }
+
+body {
+  background: black;
+  background: url(https://static.pexels.com/photos/25316/pexels-photo-25316.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+
+/*
+ * Format the gameboard
+ */
+
+.board-wrapper {}
 
 .board {
-  background: gray;
+    padding: 0;
+    margin: 0;
+    border-radius: 1vh;
+}
+
+.slot {
+    opacity: 0.25;
+    background: whitesmoke;
+    height: 10vh;
+    border: 1px solid gray;
+    padding: 0;
+    border-radius: 1vh;
+}
+
+.p1 {
+    background: green;
+}
+
+.p2 {
+    background: red;
+}
+
+
+/*
+ * Format buttons
+ */
+
+.buttons-wrapper {
+    display: inline-block;
+    padding: 3vh 0;
+    width: 100%;
+}
+
+.buttons {
+    width: auto;
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+}
+
+.buttons .btn {
+  border: 1px solid gray;
+  background: whitesmoke;
+  padding: 1vh 2vh;
+  margin: 0 1vh;
+}
+
+.buttons .btn p {
   padding: 0;
   margin: 0;
 }
 
-.slot {
-  background: whitesmoke;
-  height: 10vh;
-  border: 1px solid gray;
-  padding: 0;
-}
 
-.p1 {
-  background: green;
-}
-
-.p2 {
-  background: red;
-}
+/*
+ * Format the footer
+ */
 
 footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  padding: 0, 2.5vh;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 0, 2.5vh;
 }
 
 footer h6 {
-  text-align: center;
-  margin: 2.5vh 0px;
-  font-size: 100%;
+    text-align: center;
+    margin: 2.5vh 0px;
+    font-size: 100%;
+    color: gray;
 }
