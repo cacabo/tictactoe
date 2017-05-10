@@ -44,7 +44,13 @@ var gameState = 0;
 var p1_status = [0, 0, 0, 0, 0, 0, 0, 0];
 var p2_status = [0, 0, 0, 0, 0, 0, 0, 0];
 
-count_moves = 0;
+//Keeps count of the number of moves made
+//Used to determine if a draw has been reached
+var count_moves = 0;
+
+//Keeps track of whether the CPU is enabled for player 27
+var cpu_enabled = false;
+
 
 //Reset the game
 var resetGame = function() {
@@ -258,22 +264,45 @@ var resetBoard = function() {
     $('.slot').removeClass('p2');
 }
 
+//Handle click to r0c0
+var r0c0 = function() {
+    if (gameState === 1 || gameState === 2) {
+        //Color the grid depending on who's turn it is
+        //If the board is not yet colored
+        if (board[0][0] === 0) {
+            if (gameState === 1)
+                $('#r0c0').addClass('p1');
+            else
+                $('#r0c0').addClass('p2');
+        }
+        //Perform backend action
+        choose(0, 0);
+    }
+}
+
+var cpu_move = function() {
+    //If no move has yet been made, pick a corner
+    if (count_moves === 0) {
+        var rand = Math.floor(Math.random() * 4);
+        switch (rand) {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+        }
+    }
+    r0c0();
+}
+
 
 //Add click event listeners to buttons and slots
 $(document).ready(function() {
     $('#r0c0').click(function() {
-        if (gameState === 1 || gameState === 2) {
-            //Color the grid depending on who's turn it is
-            //If the board is not yet colored
-            if (board[0][0] === 0) {
-                if (gameState === 1)
-                    $(this).addClass('p1');
-                else
-                    $(this).addClass('p2');
-            }
-            //Perform backend action
-            choose(0, 0);
-        }
+        r0c0();
     });
 
     $('#r0c1').click(function() {
@@ -399,14 +428,21 @@ $(document).ready(function() {
     $('#reset').click(function() {
         resetGame();
         resetBoard();
+        if (cpu_enabled && (gameState === 2))
+            cpu_move();
     });
 
     $('#CPU').click(function() {
         var text = $('#CPU p').html();
-        if (text === "Enable CPU")
+        if (text === "Enable CPU") {
             $('#CPU p').html("Disable CPU");
-        else
+            cpu_enabled = true;
+            if (gameState === 2)
+                cpu_move();
+        } else {
             $('#CPU p').html("Enable CPU");
+            cpu_enabled = false;
+        }
     });
 
     $('#end').click(function() {
