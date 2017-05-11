@@ -13,10 +13,10 @@ $(document).ready(function() {
 });
 
 var style_span = function() {
-  var span = $('#state span');
-  var h = span.height();
-  span.width(h);
-  span.css("transform", "translateX(-" + h * 1.5 + "px)");
+    var span = $('#state span');
+    var h = span.height();
+    span.width(h);
+    span.css("transform", "translateX(-" + h * 1.5 + "px)");
 }
 
 /*
@@ -280,12 +280,13 @@ var choose = function(row, col) {
         if (gameState === 1) {
             $('#state').html("<span class='p1'></span>Player 1's Turn");
             style_span();
-        }
-        else if (gameState === 2) {
+        } else if (gameState === 2) {
             $('#state').html("<span class='p2'></span>Player 2's Turn");
             style_span();
             if (cpu_enabled) {
-                setTimeout(function() { cpu_move(); }, 1000);
+                setTimeout(function() {
+                    cpu_move();
+                }, 1000);
             }
         }
 
@@ -565,96 +566,96 @@ var move_to_win_or_block = function() {
 
 //Choose a random position
 var choose_random = function() {
-  //Find all open posiitons in the board
-  var open = [];
-  for (i = 0; i < 3; i++) {
-      for (j = 0; j < 3; j++) {
-          if (board[i][j] === 0) {
-              open.push((i * 10) + j);
-          }
-      }
-  }
+    //Find all open posiitons in the board
+    var open = [];
+    for (i = 0; i < 3; i++) {
+        for (j = 0; j < 3; j++) {
+            if (board[i][j] === 0) {
+                open.push((i * 10) + j);
+            }
+        }
+    }
 
-  //Pick one of the open positions
-  var rand = Math.floor(Math.random() * open.length);
-  var choice = open[rand];
+    //Pick one of the open positions
+    var rand = Math.floor(Math.random() * open.length);
+    var choice = open[rand];
 
-  var row = Math.floor(choice / 10);
-  var col = choice % 10;
+    var row = Math.floor(choice / 10);
+    var col = choice % 10;
 
-  cpu_choose(row, col);
+    cpu_choose(row, col);
 }
 
 var choose_random_corner = function() {
-  var open_corners = [];
-  if (board[0][0] === 0) {
-    open_corners.push(0);
-  }
-  if (board[0][2] === 0) {
-    open_corners.push(1);
-  }
-  if (board[2][0] === 0) {
-    open_corners.push(2);
-  }
-  if (board[2][2] === 0) {
-    open_corners.push(3);
-  }
-  var rand = -1;
-  while (($.inArray(rand, open_corners)) === -1) {
-    rand = Math.floor(Math.random() * 4);
-  }
-  switch (rand) {
-      case 0:
-          r0c0();
-          break;
-      case 1:
-          r0c2();
-          break;
-      case 2:
-          r2c0();
-          break;
-      case 3:
-          r2c2();
-          break;
-      default:
-          break;
-  }
+    var open_corners = [];
+    if (board[0][0] === 0) {
+        open_corners.push(0);
+    }
+    if (board[0][2] === 0) {
+        open_corners.push(1);
+    }
+    if (board[2][0] === 0) {
+        open_corners.push(2);
+    }
+    if (board[2][2] === 0) {
+        open_corners.push(3);
+    }
+    var rand = -1;
+    while (($.inArray(rand, open_corners)) === -1) {
+        rand = Math.floor(Math.random() * 4);
+    }
+    switch (rand) {
+        case 0:
+            r0c0();
+            break;
+        case 1:
+            r0c2();
+            break;
+        case 2:
+            r2c0();
+            break;
+        case 3:
+            r2c2();
+            break;
+        default:
+            break;
+    }
 }
 
 var choose_random_edge = function() {
-  var open_egdes = [];
-  if (board[0][1] === 0) {
-    open_egdes.push(0);
-  }
-  if (board[1][2] === 0) {
-    open_egdes.push(1);
-  }
-  if (board[2][1] === 0) {
-    open_egdes.push(2);
-  }
-  if (board[1][0] === 0) {
-    open_egdes.push(3);
-  }
-  var rand = -1;
-  while (($.inArray(rand, open_egdes)) === -1) {
-    rand = Math.floor(Math.random() * 4);
-  }
-  switch (rand) {
-      case 0:
-          r0c1();
-          break;
-      case 1:
-          r1c2();
-          break;
-      case 2:
-          r2c1();
-          break;
-      case 3:
-          r1c0();
-          break;
-      default:
-          break;
-  }
+    var open_egdes = [];
+    if (board[0][1] === 0) {
+        open_egdes.push(0);
+    }
+    if (board[1][2] === 0) {
+        open_egdes.push(1);
+    }
+    if (board[2][1] === 0) {
+        open_egdes.push(2);
+    }
+    if (board[1][0] === 0) {
+        open_egdes.push(3);
+    }
+    var rand = -1;
+    while (($.inArray(rand, open_egdes)) === -1) {
+        rand = Math.floor(Math.random() * 4);
+    }
+    switch (rand) {
+        case 0:
+            r0c1();
+            break;
+        case 1:
+            r1c2();
+            break;
+        case 2:
+            r2c1();
+            break;
+        case 3:
+            r1c0();
+            break;
+        default:
+            break;
+    }
 }
 
 //Have the CPU move if the CPU is enabled
@@ -665,27 +666,23 @@ var cpu_move = function() {
     }
     //If the CPU is moving second
     else if (count_moves === 1) {
-      //Move in the middle if it is open
-      if (board[1][1] === 0) {
-        r1c1();
-      }
-      //Otherwise choose a random corner
-      else {
-        choose_random_corner();
-      }
-    }
-    else if (count_moves === 3 && (
+        //Move in the middle if it is open
+        if (board[1][1] === 0) {
+            r1c1();
+        }
+        //Otherwise choose a random corner
+        else {
+            choose_random_corner();
+        }
+    } else if (count_moves === 3 && (
             (board[0][0] === 1 && board[2][2] === 1) ||
-            (board[0][2] === 1 && board[2][0] === 1))
-    ) {
+            (board[0][2] === 1 && board[2][0] === 1))) {
         choose_random_edge();
-    }
-    else if (count_moves === 3 && board[1][1] === 1 && (
+    } else if (count_moves === 3 && board[1][1] === 1 && (
             board[0][0] === 1 ||
             board[2][0] === 1 ||
             board[0][2] === 1 ||
-            board[2][2] === 1)
-    ) {
+            board[2][2] === 1)) {
         choose_random_corner();
     }
     //Complete a 3 in a row if possible
@@ -742,7 +739,9 @@ $(document).ready(function() {
         resetBoard();
         $('#reset_alert').slideDown(400).delay(1000).slideUp(400);
         if (cpu_enabled && (gameState === 2))
-            setTimeout(function() { cpu_move(); }, 1000);
+            setTimeout(function() {
+                cpu_move();
+            }, 1000);
     });
 
     //If the enable/disable CPU button is clicked
@@ -753,7 +752,9 @@ $(document).ready(function() {
             $('#enable_alert').slideDown(400).delay(1000).slideUp(400);
             cpu_enabled = true;
             if (gameState === 2)
-                setTimeout(function() { cpu_move(); }, 1000);
+                setTimeout(function() {
+                    cpu_move();
+                }, 1000);
         } else {
             $('#CPU p').html("Enable CPU");
             $('#disable_alert').slideDown(400).delay(1000).slideUp(400);
