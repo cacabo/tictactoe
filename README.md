@@ -1,5 +1,7 @@
 # Tic-Tac-Toe
 
+Try it out [here.](http://cameroncabo.com/projects/tictactoe)
+
 Recreation of tic-tac-toe in Javascript, HTML, and CSS. This project was
 primarily an exploration into Javascript as a functional programming language.
 
