@@ -689,8 +689,8 @@ var cpu_move = function() {
     //Otherwise block a 3 in a row by player1
     else if (move_to_win_or_block()) {
         return;
-    else if (block[1][1] === 0)
-        cpu_choose(1, 1);
+        else if (block[1][1] === 0)
+            cpu_choose(1, 1);
     } else {
         choose_random();
     }
@@ -700,39 +700,48 @@ var cpu_move = function() {
 //Add click event listeners to buttons and slots
 $(document).ready(function() {
     $('#r0c0').click(function() {
-        r0c0();
+        if (!cpu_enabled || gameState === 1)
+            r0c0();
     });
 
     $('#r0c1').click(function() {
-        r0c1();
+        if (!cpu_enabled || gameState === 1)
+            r0c1();
     });
 
     $('#r0c2').click(function() {
-        r0c2();
+        if (!cpu_enabled || gameState === 1)
+            r0c2();
     });
 
     $('#r1c0').click(function() {
-        r1c0();
+        if (!cpu_enabled || gameState === 1)
+            r1c0();
     });
 
     $('#r1c1').click(function() {
-        r1c1();
+        if (!cpu_enabled || gameState === 1)
+            r1c1();
     });
 
     $('#r1c2').click(function() {
-        r1c2();
+        if (!cpu_enabled || gameState === 1)
+            r1c2();
     });
 
     $('#r2c0').click(function() {
-        r2c0();
+        if (!cpu_enabled || gameState === 1)
+            r2c0();
     });
 
     $('#r2c1').click(function() {
-        r2c1();
+        if (!cpu_enabled || gameState === 1)
+            r2c1();
     });
 
     $('#r2c2').click(function() {
-        r2c2();
+        if (!cpu_enabled || gameState === 1)
+            r2c2();
     });
 
     //Reset the game
