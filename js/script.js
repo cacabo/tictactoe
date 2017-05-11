@@ -70,15 +70,14 @@ var resetGame = function() {
     //Change the game state so the user can see
     if (gameState === 1) {
         $('#state').html("Player 1's Turn");
-    }
-    else {
+    } else {
         $('#state').html("Player 2's Turn");
     }
 
     p1_status = [0, 0, 0, 0, 0, 0, 0, 0];
     p2_status = [0, 0, 0, 0, 0, 0, 0, 0];
 
-    countMoves = 0;
+    count_moves = 0;
 }
 
 //Returns 0 if neither player has won
@@ -97,8 +96,8 @@ var checkWon = function() {
             return 2;
         }
     }
-    if (countMoves === 9) {
-        $('#state').html("Draw");
+    if (count_moves === 9) {
+        $('#state').html("It's a draw!");
         gameState = 5;
         return 3;
     }
@@ -156,7 +155,7 @@ var choose = function(row, col) {
     }
     // If this location has not yet been chosen
     if ((gameState === 1 || gameState === 2) && board[row][col] === 0) {
-        countMoves++;
+        count_moves++;
         //Assign either a 1 or 2 to the board depending on whose turn it is
         board[row][col] = gameState;
 
@@ -209,8 +208,7 @@ var choose = function(row, col) {
                     break;
             }
         } else {
-
-            switch (gameState === 2) {
+            switch (true) {
                 case (row === 0 && col === 0):
                     updateStatusP2(0);
                     updateStatusP2(3);
@@ -266,8 +264,13 @@ var choose = function(row, col) {
 
         if (gameState === 1)
             $('#state').html("Player 1's Turn");
-        else if (gameState === 2)
+        else if (gameState === 2) {
             $('#state').html("Player 2's Turn");
+            if (cpu_enabled) {
+                cpu_move();
+            }
+        }
+
     }
 }
 
@@ -293,22 +296,307 @@ var r0c0 = function() {
     }
 }
 
+//Handle click to r0c1
+var r0c1 = function() {
+    if (gameState === 1 || gameState === 2) {
+        //Color the grid depending on who's turn it is
+        //If the board is not yet colored
+        if (board[0][1] === 0) {
+            if (gameState === 1)
+                $('#r0c1').addClass('p1');
+            else
+                $('#r0c1').addClass('p2');
+        }
+        //Perform backend action
+        choose(0, 1);
+    }
+}
+
+//Handle click to r0c2
+var r0c2 = function() {
+    if (gameState === 1 || gameState === 2) {
+        //Color the grid depending on who's turn it is
+        //If the board is not yet colored
+        if (board[0][2] === 0) {
+            if (gameState === 1)
+                $('#r0c2').addClass('p1');
+            else
+                $('#r0c2').addClass('p2');
+        }
+        //Perform backend action
+        choose(0, 2);
+    }
+}
+
+//Handle click to r1c0
+var r1c0 = function() {
+    if (gameState === 1 || gameState === 2) {
+        //Color the grid depending on who's turn it is
+        //If the board is not yet colored
+        if (board[1][0] === 0) {
+            if (gameState === 1)
+                $('#r1c0').addClass('p1');
+            else
+                $('#r1c0').addClass('p2');
+        }
+        //Perform backend action
+        choose(1, 0);
+    }
+}
+
+//Handle click to r1c1
+var r1c1 = function() {
+    if (gameState === 1 || gameState === 2) {
+        //Color the grid depending on who's turn it is
+        //If the board is not yet colored
+        if (board[1][1] === 0) {
+            if (gameState === 1)
+                $('#r1c1').addClass('p1');
+            else
+                $('#r1c1').addClass('p2');
+        }
+        //Perform backend action
+        choose(1, 1);
+    }
+}
+
+//Handle click to r1c2
+var r1c2 = function() {
+    if (gameState === 1 || gameState === 2) {
+        //Color the grid depending on who's turn it is
+        //If the board is not yet colored
+        if (board[1][2] === 0) {
+            if (gameState === 1)
+                $('#r1c2').addClass('p1');
+            else
+                $('#r1c2').addClass('p2');
+        }
+        //Perform backend action
+        choose(1, 2);
+    }
+}
+
+//Handle click to r2c0
+var r2c0 = function() {
+    if (gameState === 1 || gameState === 2) {
+        //Color the grid depending on who's turn it is
+        //If the board is not yet colored
+        if (board[2][0] === 0) {
+            if (gameState === 1)
+                $('#r2c0').addClass('p1');
+            else
+                $('#r2c0').addClass('p2');
+        }
+        //Perform backend action
+        choose(2, 0);
+    }
+}
+
+//Handle click to r2c1
+var r2c1 = function() {
+    if (gameState === 1 || gameState === 2) {
+        //Color the grid depending on who's turn it is
+        //If the board is not yet colored
+        if (board[2][1] === 0) {
+            if (gameState === 1)
+                $('#r2c1').addClass('p1');
+            else
+                $('#r2c1').addClass('p2');
+        }
+        //Perform backend action
+        choose(2, 1);
+    }
+}
+
+//Handle click to r2c2
+var r2c2 = function() {
+    if (gameState === 1 || gameState === 2) {
+        //Color the grid depending on who's turn it is
+        //If the board is not yet colored
+        if (board[2][2] === 0) {
+            if (gameState === 1)
+                $('#r2c2').addClass('p1');
+            else
+                $('#r2c2').addClass('p2');
+        }
+        //Perform backend action
+        choose(2, 2);
+    }
+}
+
+//Choose the location in the grid based on the passed in row and column
+//And update both the front and back ends
+var cpu_choose = function(row, col) {
+    var string = '#r' + row + 'c' + col;
+    console.log("This is the string:" + string);
+
+    switch (string) {
+        case '#r0c0':
+            r0c0();
+            break;
+        case '#r0c1':
+            r0c1();
+            break;
+        case '#r0c2':
+            r0c2();
+            break;
+        case '#r1c0':
+            r1c0();
+            break;
+        case '#r1c1':
+            r1c1();
+            break;
+        case '#r1c2':
+            r1c2();
+            break;
+        case '#r2c0':
+            r2c0();
+            break;
+        case '#r2c1':
+            r2c1();
+            break;
+        case '#r2c2':
+            r2c2();
+            break;
+    }
+}
+
+//Takes in a row and col, which can be either "x" for row and "y" for col
+//If an integer is passed in, then we choose the open item in the passed in row
+//or column
+var place_in_line = function(row, col) {
+    //Place in the sepcified column
+    if (row === "x" && col !== "y") {
+        for (j = 0; j < 3; j++) {
+            if (board[j][col] === 0)
+                cpu_choose(j, col);
+        }
+    }
+    //Place in the specified row
+    else if (col === "y" && row !== "x") {
+        for (j = 0; j < 3; j++) {
+            if (board[row][j] === 0)
+                cpu_choose(row, j);
+        }
+    }
+    //Place int eh diagonal from upper left to bottom right
+    else if (row === "x" && col === "y") {
+        for (j = 0; j < 3; j++) {
+            if (board[j][j] === 0)
+                cpu_choose(j, j);
+        }
+    }
+    //Place in the diagonal from bottom left to upper right
+    else if (row === "y" && col === "x") {
+        for (j = 0; j < 3; j++) {
+            if (board[2 - j][j] === 0)
+                cpu_choose(2 - j, j);
+        }
+    }
+}
+
+//Returns 1 if the CPU wins, otherwise returns 0
+var move_to_win_or_block = function() {
+    var win_or_block = -1;
+    for (i = 0; i < 8; i++) {
+        if (p2_status[i] === 2) {
+            win_or_block = i;
+            break;
+        }
+    }
+    if (win_or_block === -1) {
+        for (k = 0; k < 8; k++) {
+            if (p1_status[k] === 2) {
+                win_or_block = k;
+                break;
+            }
+        }
+    }
+    //If there is no 2 in a row on the board, return false
+    if (win_or_block === -1) {
+        return false;
+    }
+    switch (win_or_block) {
+        case 0:
+            place_in_line(0, "y");
+            break;
+        case 1:
+            place_in_line(1, "y");
+            break;
+        case 2:
+            place_in_line(2, "y");
+            break;
+        case 3:
+            place_in_line("x", 0);
+            break;
+        case 4:
+            place_in_line("x", 1);
+            break;
+        case 5:
+            place_in_line("x", 2);
+            break;
+        case 6:
+            place_in_line("x", "y");
+            break;
+        case 7:
+            place_in_line("y", "x");
+            break;
+    }
+    //If a three in a row was acheived or blocked, return true
+    return true;
+}
+
+//Have the CPU move if the CPU is enabled
 var cpu_move = function() {
+    console.log("Time for cpu move");
+    console.log("Number of moves: " + count_moves);
     //If no move has yet been made, pick a corner
     if (count_moves === 0) {
         var rand = Math.floor(Math.random() * 4);
         switch (rand) {
             case 0:
+                r0c0();
                 break;
             case 1:
+                r0c2();
                 break;
             case 2:
+                r2c0();
                 break;
             case 3:
+                r2c2();
+                break;
+            default:
                 break;
         }
     }
-    r0c0();
+    // else if (count_moves === 3 && board[1][1] === 0) {
+    // } TODO
+    //Complete a 3 in a row if possible
+    //Otherwise block a 3 in a row by player1
+    else if (move_to_win_or_block()) {
+        return;
+    } else {
+        console.log("Choosing a random position");
+        //Find all open posiitons in the board
+        var open = [];
+        for (i = 0; i < 3; i++) {
+            for (j = 0; j < 3; j++) {
+                if (board[i][j] === 0) {
+                    open.push((i * 10) + j);
+                }
+            }
+        }
+
+        //Pick one of the open positions
+        var rand = Math.floor(Math.random() * open.length);
+        var choice = open[rand];
+
+        var row = Math.floor(choice / 10);
+        var col = choice % 10;
+
+        cpu_choose(row, col);
+    }
 }
 
 
@@ -319,125 +607,38 @@ $(document).ready(function() {
     });
 
     $('#r0c1').click(function() {
-        if (gameState === 1 || gameState === 2) {
-            //Color the grid depending on who's turn it is
-            //If the board is not yet colored
-            if (board[0][1] === 0) {
-                if (gameState === 1)
-                    $(this).addClass('p1');
-                else
-                    $(this).addClass('p2');
-            }
-            //Perform backend action
-            choose(0, 1);
-        }
+        r0c1();
     });
 
     $('#r0c2').click(function() {
-        if (gameState === 1 || gameState === 2) {
-            //Color the grid depending on who's turn it is
-            //If the board is not yet colored
-            if (board[0][2] === 0) {
-                if (gameState === 1)
-                    $(this).addClass('p1');
-                else
-                    $(this).addClass('p2');
-            }
-            //Perform backend action
-            choose(0, 2);
-        }
+        r0c2();
     });
 
     $('#r1c0').click(function() {
-        if (gameState === 1 || gameState === 2) {
-            //Color the grid depending on who's turn it is
-            //If the board is not yet colored
-            if (board[1][0] === 0) {
-                if (gameState === 1)
-                    $(this).addClass('p1');
-                else
-                    $(this).addClass('p2');
-            }
-            //Perform backend action
-            choose(1, 0);
-        }
+        r1c0();
     });
 
     $('#r1c1').click(function() {
-        if (gameState === 1 || gameState === 2) {
-            //Color the grid depending on who's turn it is
-            //If the board is not yet colored
-            if (board[1][1] === 0) {
-                if (gameState === 1)
-                    $(this).addClass('p1');
-                else
-                    $(this).addClass('p2');
-            }
-            //Perform backend action
-            choose(1, 1);
-        }
+        r1c1();
     });
 
     $('#r1c2').click(function() {
-        if (gameState === 1 || gameState === 2) {
-            //Color the grid depending on who's turn it is
-            //If the board is not yet colored
-            if (board[1][2] === 0) {
-                if (gameState === 1)
-                    $(this).addClass('p1');
-                else
-                    $(this).addClass('p2');
-            }
-            //Perform backend action
-            choose(1, 2);
-        }
+        r1c2();
     });
 
     $('#r2c0').click(function() {
-        if (gameState === 1 || gameState === 2) {
-            //Color the grid depending on who's turn it is
-            //If the board is not yet colored
-            if (board[2][0] === 0) {
-                if (gameState === 1)
-                    $(this).addClass('p1');
-                else
-                    $(this).addClass('p2');
-            }
-            //Perform backend action
-            choose(2, 0);
-        }
+        r2c0();
     });
 
     $('#r2c1').click(function() {
-        if (gameState === 1 || gameState === 2) {
-            //Color the grid depending on who's turn it is
-            //If the board is not yet colored
-            if (board[2][1] === 0) {
-                if (gameState === 1)
-                    $(this).addClass('p1');
-                else
-                    $(this).addClass('p2');
-            }
-            //Perform backend action
-            choose(2, 1);
-        }
+        r2c1();
     });
 
     $('#r2c2').click(function() {
-        if (gameState === 1 || gameState === 2) {
-            //Color the grid depending on who's turn it is
-            //If the board is not yet colored
-            if (board[2][2] === 0) {
-                if (gameState === 1)
-                    $(this).addClass('p1');
-                else
-                    $(this).addClass('p2');
-            }
-            //Perform backend action
-            choose(2, 2);
-        }
+        r2c2();
     });
 
+    //Reset the game
     $('#reset').click(function() {
         resetGame();
         resetBoard();
@@ -445,6 +646,7 @@ $(document).ready(function() {
             cpu_move();
     });
 
+    //If the enable/disable CPU button is clicked
     $('#CPU').click(function() {
         var text = $('#CPU p').html();
         if (text === "Enable CPU") {
