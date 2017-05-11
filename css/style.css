@@ -16,8 +16,15 @@
 nav h1 {
     font-size: 150%;
     margin: 2.5vh;
-    width: 50vw;
     color: whitesmoke;
+}
+
+#title {
+  float: left;
+}
+
+#state {
+  float: right;
 }
 
 body {
@@ -49,8 +56,7 @@ body {
 }
 
 .slot {
-    opacity: 0.25;
-    background: whitesmoke;
+    opacity: 0.5;
     height: 10vh;
     padding: 0;
     border-radius: 100%;
@@ -58,6 +64,13 @@ body {
     cursor: hand;
     transform: scale(.8, .8);
     transition: all .25s ease;
+    box-shadow: 0px 4px 4px #202020;
+
+    background: gray;
+    background: -webkit-radial-gradient(gray, #585858); /* For Safari 5.1 to 6.0 */
+    background: -o-radial-gradient(gray, #585858); /* For Opera 11.1 to 12.0 */
+    background: -moz-radial-gradient(gray, #585858); /* For Firefox 3.6 to 15 */
+    background: radial-gradient(gray, #585858); /* Standard syntax */
 }
 
 .slot:hover {
@@ -65,11 +78,19 @@ body {
 }
 
 .p1 {
-    background: green;
+    background: #00ffff;
+    background: -webkit-radial-gradient(#00ffff, #0099ff); /* For Safari 5.1 to 6.0 */
+    background: -o-radial-gradient(#00ffff, #0099ff); /* For Opera 11.1 to 12.0 */
+    background: -moz-radial-gradient(#00ffff, #0099ff); /* For Firefox 3.6 to 15 */
+    background: radial-gradient(#00ffff, #0099ff); /* Standard syntax */
 }
 
 .p2 {
-    background: red;
+    background: #ff9999;
+    background: -webkit-radial-gradient(#ff9999, #ff1a66); /* For Safari 5.1 to 6.0 */
+    background: -o-radial-gradient(#ff9999, #ff1a66); /* For Opera 11.1 to 12.0 */
+    background: -moz-radial-gradient(#ff9999, #ff1a66); /* For Firefox 3.6 to 15 */
+    background: radial-gradient(#ff9999, #ff1a66); /* Standard syntax */
 }
 
 
@@ -129,4 +150,13 @@ footer h6 {
     margin: 2.5vh 0px;
     font-size: 100%;
     color: gray;
+}
+
+footer a {
+  transition: all 0.25s ease;
+}
+
+footer a:hover {
+  text-decoration: none;
+  color: #5bc0de;
 }

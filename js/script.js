@@ -67,6 +67,14 @@ var resetGame = function() {
     //Randomly assign either player 1 or player 2 to start
     gameState = (Math.floor(Math.random() * 2)) + 1;
 
+    //Change the game state so the user can see
+    if (gameState === 1) {
+        $('#state').html("Player 1's Turn");
+    }
+    else {
+        $('#state').html("Player 2's Turn");
+    }
+
     p1_status = [0, 0, 0, 0, 0, 0, 0, 0];
     p2_status = [0, 0, 0, 0, 0, 0, 0, 0];
 
@@ -78,19 +86,19 @@ var resetGame = function() {
 //Returns 2 if player 2 has won
 //Returns 3 if neither player has won yet the game has ended (draw)
 var checkWon = function() {
-    //TODO
-
-
     for (i = 0; i < 8; i++) {
         if (p1_status[i] === 3) {
+            $('#state').html("Player 1 Won");
             gameState = 3;
             return 1;
         } else if (p2_status[i] === 3) {
+            $('#state').html("Player 2 Won");
             gameState = 4;
             return 2;
         }
     }
     if (countMoves === 9) {
+        $('#state').html("Draw");
         gameState = 5;
         return 3;
     }
@@ -255,6 +263,11 @@ var choose = function(row, col) {
 
         //Check if either player has won
         checkWon();
+
+        if (gameState === 1)
+            $('#state').html("Player 1's Turn");
+        else if (gameState === 2)
+            $('#state').html("Player 2's Turn");
     }
 }
 
@@ -443,10 +456,6 @@ $(document).ready(function() {
             $('#CPU p').html("Enable CPU");
             cpu_enabled = false;
         }
-    });
-
-    $('#end').click(function() {
-        gameState = 5;
     });
 });
 
