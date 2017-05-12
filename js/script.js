@@ -689,8 +689,8 @@ var cpu_move = function() {
     //Otherwise block a 3 in a row by player1
     else if (move_to_win_or_block()) {
         return;
-        else if (block[1][1] === 0)
-            cpu_choose(1, 1);
+    } else if (board[1][1] === 0) {
+        cpu_choose(1, 1);
     } else {
         choose_random();
     }
