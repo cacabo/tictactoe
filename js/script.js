@@ -809,9 +809,13 @@ var optimize_points = function() {
 
 //Have the CPU move if the CPU is enabled
 var cpu_move = function() {
+    //Ensure that it is player 2's turn and that the CPU is enabled
+    if (gameState !== 2 || !cpu_enabled) {
+        return;
+    }
     //Complete a 3 in a row if possible
     //Otherwise block a 3 in a row by player1
-    if (move_to_win_or_block()) {
+    else if (move_to_win_or_block()) {
         return;
     }
     //If no move has yet been made, pick a corner
@@ -897,31 +901,36 @@ $(document).ready(function() {
         resetGame();
         resetBoard();
         $('#reset_alert').slideDown(400).delay(1000).slideUp(400);
-        if (cpu_enabled && (gameState === 2))
-            setTimeout(function() {
+        //Wait 1000s
+        setTimeout(function() {
+            if (cpu_enabled && (gameState === 2)) {
                 cpu_move();
-            }, 1000);
+            }
+        }, 1000);
     });
 
     //If the enable/disable CPU button is clicked
     $('#CPU').click(function() {
         var text = $('#CPU p').html();
         if (text === "Enable CPU") {
+            //If the cpu is enabled, update the button and flash an alert
             $('#CPU p').html("Disable CPU");
             $('#enable_alert').slideDown(400).delay(1000).slideUp(400);
             cpu_enabled = true;
-            if (gameState === 2)
-                setTimeout(function() {
+            //If it is player 2's turn, then wait 1 second and then move
+            setTimeout(function() {
+                if (gameState === 2 && cpu_enabled) {
                     cpu_move();
-                }, 1000);
+                }
+            }, 1000);
         } else {
+            //If the CPU is disabled, update the button and flash an alert
             $('#CPU p').html("Enable CPU");
             $('#disable_alert').slideDown(400).delay(1000).slideUp(400);
             cpu_enabled = false;
         }
     });
 });
-
 
 
 //When the page has finished loading, start playing the game
