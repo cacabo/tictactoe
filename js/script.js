@@ -120,27 +120,19 @@ var checkWon = function() {
     return 0;
 }
 
-// var play = function() {
-//     resetGame();
-//     while (gameState !== 3 && gameState !== 4 && gameState !== 5) {
-//         /*
-//          * Wait for someone to click
-//          */
-//
-//         checkWon();
-//     }
-// }
-
+//Log the board to the console
 var getBoard = function() {
     console.log(board[0]);
     console.log(board[1]);
     console.log(board[2]);
 }
 
+//Return p1's status
 var getP1Status = function() {
     return p1_status;
 }
 
+//Return p2's status
 var getP2Status = function() {
     return p2_status;
 }
@@ -658,10 +650,172 @@ var choose_random_edge = function() {
     }
 }
 
+//Sum status points for a passed in position in the status arrays
+var status_points = function(pos) {
+    //Safety check to ensure the position is not out of range
+    if (pos < 0 || pos >= 8) {
+        return -1;
+    }
+    //If P1 can not win in this avenue
+    if (p1_status[pos] === -1) {
+        //If neither player can win in this avenue, return 0
+        if (p2_status[pos] === -1)
+            return 0;
+        //Otherwise return p2's status at that avenue shifted up by 1
+        //This ensures it never returns 0
+        else
+            return p2_status[pos] + 1;
+    }
+    //Otherwise P1 can potentially win in this avenue
+    else {
+        //If P2 cannot win in this avenue, return p1's status offset by 1
+        if (p2_status[pos] === -1)
+            return p1_status[pos] + 1;
+        //Otherwise both players can win in this avenue,
+        else
+            return 1;
+    }
+}
+
+//Pick where to move utilizing the points system
+var optimize_points = function() {
+    //If it is neither player's turn, then make no move
+    if (gameState !== 1 && gameState !== 2)
+        return;
+    //Set positions to the current baord
+    var open_positions = [];
+    //We cannot move in positions where there are already tokens,
+    //So only push positions which are open
+    for (i = 0; i < 3; i++) {
+        for (j = 0; j < 3; j++) {
+            if (board[i][j] === 0)
+                open_positions.push(j + (3 * i));
+        }
+    }
+    //Open positions now contains all open positions.
+    console.log(open_positions);
+
+    //Initialize an array to count point values for moving in each open position
+    var points = new Array(open_positions.length);
+    //Ensure all values in the array are 0
+    for (w = 0; w < points.length; w++) {
+        points[w] = 0;
+    }
+    //Count the points at each open position
+    //This is based on the avenues which contain the given position
+    for (k = 0; k < open_positions.length; k++) {
+        switch (open_positions[k]) {
+            case 0:
+                //Case 0 contains three avenues: top row, left most column,
+                //and the diagonal form top left to bottom right
+                points[k] += status_points(0);
+                points[k] += status_points(3);
+                points[k] += status_points(6);
+                break;
+            case 1:
+                //Case 1 containes two avenues: top row and middle column
+                points[k] += status_points(0);
+                points[k] += status_points(4);
+                break;
+            case 2:
+                points[k] += status_points(0);
+                points[k] += status_points(5);
+                points[k] += status_points(7);
+                break;
+            case 3:
+                points[k] += status_points(1);
+                points[k] += status_points(3);
+                break;
+            case 4:
+                points[k] += status_points(1);
+                points[k] += status_points(4);
+                points[k] += status_points(6);
+                points[k] += status_points(7);
+                break;
+            case 5:
+                points[k] += status_points(1);
+                points[k] += status_points(5);
+                break;
+            case 6:
+                points[k] += status_points(2);
+                points[k] += status_points(3);
+                points[k] += status_points(7);
+                break;
+            case 7:
+                points[k] += status_points(2);
+                points[k] += status_points(4);
+                break;
+            case 8:
+                points[k] += status_points(2);
+                points[k] += status_points(5);
+                points[k] += status_points(6);
+                break;
+            default:
+                break;
+        }
+    }
+    //At this point, all point values have been counted
+    //Find the maximum point value
+    var max = Math.max.apply(null, points);
+
+    //Create an empty array to store all possible choices
+    //That is, the choices which present the maximum point value
+    var choices = [];
+
+    //Iterate over all open positions and push a given position to the choices
+    //array if it has the maximum point value
+    for (l = 0; l < open_positions.length; l++) {
+        if (points[l] === max)
+            choices.push(open_positions[l]);
+    }
+
+    //Choices now contains all choices with the maximum point value
+    //Choose a random position in the array
+    var pos = Math.floor(Math.random() * choices.length);
+
+    //Based on the chosen position, have the cpu play at that position
+    switch (choices[pos]) {
+        case 0:
+            cpu_choose(0, 0);
+            break;
+        case 1:
+            cpu_choose(0, 1);
+            break;
+        case 2:
+            cpu_choose(0, 2);
+            break;
+        case 3:
+            cpu_choose(1, 0);
+            break;
+        case 4:
+            cpu_choose(1, 1);
+            break;
+        case 5:
+            cpu_choose(1, 2);
+            break;
+        case 6:
+            cpu_choose(2, 0);
+            break;
+        case 7:
+            cpu_choose(2, 1);
+            break;
+        case 8:
+            cpu_choose(2, 2);
+            break;
+        default:
+            break;
+    }
+}
+
 //Have the CPU move if the CPU is enabled
 var cpu_move = function() {
+    //Complete a 3 in a row if possible
+    //Otherwise block a 3 in a row by player1
+    if (move_to_win_or_block()) {
+        return;
+    }
     //If no move has yet been made, pick a corner
-    if (count_moves === 0) {
+    else if (count_moves === 0) {
         choose_random_corner();
     }
     //If the CPU is moving second
@@ -685,15 +839,9 @@ var cpu_move = function() {
             board[2][2] === 1)) {
         choose_random_corner();
     }
-    //Complete a 3 in a row if possible
-    //Otherwise block a 3 in a row by player1
-    else if (move_to_win_or_block()) {
-        return;
-    } else if (board[1][1] === 0) {
-        cpu_choose(1, 1);
-    } else {
-        choose_random();
-    }
+    //Otherwise choose the position which optimizes point value return
+    else
+        optimize_points();
 }
 
 
